@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date [%level] [%thread] [%file:%line] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+	<appender name="Logline" class="org.logline.logback.LogLineAppender">
+	</appender>
+	
+     <root level="info">
+        <appender-ref ref="Console" />
+        <appender-ref ref="Logline" />
+    </root>
+    
+</configuration>
