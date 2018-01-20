@@ -2,7 +2,7 @@
 
 Logline is a simple yet powerful framework that solves a very common problem - transparently simulate corner cases that require fine control of an application execution flow. For example:
 * Simulate latency e.g. when accessing DB, or other remote service 
-* Sync between multiple threads - thread T1 should wait on point P1 for thread T2 to reach point P2, for example to simulate deadlock.
+* Sync between multiple threads to simulate deadlock or count-down latches
 * Simulate rare exception thrown during the execution flow
 * Simulate a crash in a **specific** point of the execution flow
 
