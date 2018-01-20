@@ -2,6 +2,10 @@ package org.logline.logback;
 
 import org.logline.ILoggingEvent;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class LoggingEvent implements ILoggingEvent {
 
 	ch.qos.logback.classic.spi.ILoggingEvent logbackLoggingEvent;

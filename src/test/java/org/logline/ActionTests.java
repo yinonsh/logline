@@ -17,6 +17,10 @@ import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 @RunWith(Parameterized.class)
 public class ActionTests {
 	@Parameters

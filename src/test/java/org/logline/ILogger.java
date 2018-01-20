@@ -1,5 +1,9 @@
 package org.logline;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public interface ILogger {
 	public enum Level {
 		TRACE,

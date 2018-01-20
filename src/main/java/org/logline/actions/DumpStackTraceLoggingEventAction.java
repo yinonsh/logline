@@ -4,6 +4,10 @@ import org.logline.ILoggingEvent;
 import org.logline.ILoggingEventAction;
 import org.logline.utils.ThreadDumper;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class DumpStackTraceLoggingEventAction implements ILoggingEventAction {
 
 	@Override

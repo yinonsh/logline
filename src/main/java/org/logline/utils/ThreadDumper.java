@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class ThreadDumper {
 
 	public static void dumpAllThreadStackTraces() {

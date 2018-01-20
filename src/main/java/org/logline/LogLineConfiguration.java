@@ -10,6 +10,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.logline.actions.DelayLoggingEventAction;
 import org.logline.actions.ThrowExceptionLoggingEventAction;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class LogLineConfiguration {
 	private static Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions = new ConcurrentHashMap<>();
 

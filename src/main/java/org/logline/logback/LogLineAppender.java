@@ -15,6 +15,10 @@ import ch.qos.logback.core.spi.FilterAttachableImpl;
 import ch.qos.logback.core.spi.FilterReply;
 import ch.qos.logback.core.status.WarnStatus;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class LogLineAppender extends ContextAwareBase implements Appender<ILoggingEvent> {
 
 	private String name;

@@ -2,6 +2,10 @@ package org.logline;
 
 import ch.qos.logback.classic.Logger;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class LogbackLogger implements ILogger {
 
 	private Logger logger;

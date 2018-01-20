@@ -1,6 +1,9 @@
 package org.logline;
 
-public interface ILoggingEventAction {
+/**
+ * @author Yinon Sharifi
+ */
 
+public interface ILoggingEventAction {
 	public void act(ILoggingEvent loggingEvent);
 }

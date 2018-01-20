@@ -2,6 +2,10 @@ package org.logline;
 
 import org.apache.log4j.Logger;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class Log4jLogger implements ILogger {
 
 	private Logger logger;

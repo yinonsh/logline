@@ -11,6 +11,10 @@ import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Yinon Sharifi
+ */
+
 public class FilterTests {
 	public static Logger log = LoggerFactory.getLogger(FilterTests.class);
 
