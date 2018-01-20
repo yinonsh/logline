@@ -9,7 +9,9 @@ Logline is a simple yet powerful framework that solves a very common problem - t
 * Sync between multiple threads to simulate a deadlock or count-down latches
 
 In the general form, Logline enables the running of any piece of code, at a specific point in the flow.
-Actual log lines represents the points in the execution flow, which makes it very easy to and intuitive to use, since log lines usually refer to intersting events.
+
+Actual log lines represents these points in the execution flow, which makes it easy and intuitive to use, since log lines usually refer to interesting events and are often easy to remember.
+
 For example, to simulate a latency when the program fetches contacts from facebook after logging "Fetching contacts from fb":
 
 ```java
