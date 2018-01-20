@@ -23,7 +23,7 @@ on("Fetching contacts from facebook").delayMillis(60000).throw(new ConnectionTim
 ```
 
 	
-For more information please see the following:
+For more information, please visit:
 * Why should you use logline 
 * Getting started
 * Limitations 
