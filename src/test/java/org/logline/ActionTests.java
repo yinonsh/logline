@@ -2,21 +2,40 @@ package org.logline;
 
 import static org.logline.LogLineConfiguration.on;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.concurrent.CountDownLatch;
 
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.Logger;
+
+@RunWith(Parameterized.class)
 public class ActionTests {
-	public static Logger log = LoggerFactory.getLogger(ActionTests.class);
+	@Parameters
+	public static Collection<Object[]> data() {
+		final Logger logback = (Logger) LoggerFactory.getLogger(ActionTests.class);
+		final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ActionTests.class);
+
+		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) } });// , { new Log4jLogger(log4j) } });
+	}
+
+	private ILogger logger;
+
+	public ActionTests(ILogger logger) {
+		this.logger = logger;
+	}
 
 	@Before
 	public void clearConfiguration() {
-		log.info("Clearing logline configuration");
+		logger.info("Clearing logline configuration");
 		LogLineConfiguration.clear();
 	}
 
@@ -27,8 +46,8 @@ public class ActionTests {
 		onLogLine("foo").delay(delayMs);
 		long start = System.currentTimeMillis();
 
-		log.info("foo");
-		log.info("bar");
+		logger.info("foo");
+		logger.info("bar");
 
 		long duration = System.currentTimeMillis() - start;
 		Assert.assertTrue("Expected at least a delay of " + delayMs + " ms",
@@ -39,8 +58,8 @@ public class ActionTests {
 	public void testNoDelayAction() {
 		long start = System.currentTimeMillis();
 
-		log.info("foo");
-		log.info("bar");
+		logger.info("foo");
+		logger.info("bar");
 
 		long duration = System.currentTimeMillis() - start;
 		Assert.assertTrue("Expected no delay", duration >= 0 && duration < 10);
@@ -56,7 +75,7 @@ public class ActionTests {
 		long start = System.currentTimeMillis();
 
 		new Thread(() -> {
-			log.info("foo");
+			logger.info("foo");
 			latch.countDown();
 		}).start();
 
@@ -72,7 +91,7 @@ public class ActionTests {
 		String exceptionMessage = "Dummy exception";
 		onLogLine("foo").throwException(new IllegalStateException(exceptionMessage));
 		try {
-			log.info("foo");
+			logger.info("foo");
 		} catch (IllegalStateException e) {
 			Assert.assertEquals(e.getMessage(), exceptionMessage);
 			return;
