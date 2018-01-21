@@ -2,11 +2,20 @@ package org.logline;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.logline.filters.ExactMessageLoggingEventFilter;
+import org.logline.filters.PatternBasedLoggingEventFilter;
+import org.logline.filters.StartsWithMessageLoggingEventFilter;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
@@ -38,4 +47,71 @@ public class FilterTests {
 		LogLineConfiguration.clear();
 	}
 
+	@Test
+	public void testPatternBasedFilter() {
+		Map<String, List<String>> patternToMatchedMessages = new HashMap<>();
+		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<>();
+
+		patternToMatchedMessages.put("this is text", Arrays.asList("this is text"));
+
+		patternToUnmatchedMessages.put("this is text",
+				Arrays.asList("thisistext", "foo this is text  foo", "foo this is text", "this is text  foo"));
+
+		for (String pattern : patternToUnmatchedMessages.keySet()) {
+			Pattern p = Pattern.compile(pattern);
+			LogLineConfiguration.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+
+			for (String match : patternToUnmatchedMessages.get(pattern)) {
+				logger.info(match);
+			}
+		}
+
+		for (String pattern : patternToMatchedMessages.keySet()) {
+			Pattern p = Pattern.compile(pattern);
+			LogLineConfiguration.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+
+			for (String match : patternToMatchedMessages.get(pattern)) {
+				try {
+					logger.info(match);
+				} catch (IllegalStateException e) {
+					continue;
+				}
+
+				Assert.fail("Expected exception to be thrown");
+			}
+		}
+
+	}
+
+	@Test
+	public void testExactMessageFilter() {
+		LogLineConfiguration.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+
+		logger.info("foooo");
+		logger.info("oofoo");
+
+		try {
+			logger.info("foo");
+		} catch (IllegalStateException e) {
+			return;
+		}
+
+		Assert.fail("Expected exception to be thrown");
+	}
+
+	@Test
+	public void testStartWithMessageFilter() {
+		LogLineConfiguration.on(new StartsWithMessageLoggingEventFilter("foo"))
+				.throwException(new IllegalStateException());
+
+		logger.info("oofoo");
+
+		try {
+			logger.info("fooooooo");
+		} catch (IllegalStateException e) {
+			return;
+		}
+
+		Assert.fail("Expected exception to be thrown");
+	}
 }
