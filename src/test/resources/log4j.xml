@@ -9,8 +9,12 @@
         </layout>
     </appender>
 
+	<appender name="logline" class="org.logline.log4j.Log4jLogLineAppender">
+	</appender>
+	
     <root>
         <level value="INFO" />
         <appender-ref ref="console" />
+        <appender-ref ref="logline" />
     </root>
 </log4j:configuration>

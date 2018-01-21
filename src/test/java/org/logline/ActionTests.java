@@ -28,7 +28,9 @@ public class ActionTests {
 		final Logger logback = (Logger) LoggerFactory.getLogger(ActionTests.class);
 		final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ActionTests.class);
 
-		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) } });// , { new Log4jLogger(log4j) } });
+		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) }, { new Log4jLogger(log4j) } });
+		// return Arrays.asList(new Object[][] { { new Log4jLogger(log4j) } });
+		// return Arrays.asList(new Object[][] { { new LogbackLogger(logback) }});
 	}
 
 	private ILogger logger;
@@ -47,7 +49,7 @@ public class ActionTests {
 	public void testDelayAction() {
 		long delayMs = 350;
 
-		onLogLine("foo").delay(delayMs);
+		onLogLine("foo").delayMillis(delayMs);
 		long start = System.currentTimeMillis();
 
 		logger.info("foo");
@@ -73,7 +75,7 @@ public class ActionTests {
 	public void testAsyncDelayAction() throws InterruptedException {
 		long delayMs = 350;
 
-		onLogLine("foo").delay(delayMs);
+		onLogLine("foo").delayMillis(delayMs);
 		CountDownLatch latch = new CountDownLatch(1);
 
 		long start = System.currentTimeMillis();
@@ -94,6 +96,7 @@ public class ActionTests {
 	public void testExceptionAction() {
 		String exceptionMessage = "Dummy exception";
 		onLogLine("foo").throwException(new IllegalStateException(exceptionMessage));
+
 		try {
 			logger.info("foo");
 		} catch (IllegalStateException e) {
@@ -102,6 +105,32 @@ public class ActionTests {
 		}
 
 		Assert.fail("Expected exception to be thrown");
+	}
+
+	@Test
+	public void testConcatenateActions() {
+		String exceptionMessage = "Dummy exception";
+		long delayMs = 275;
+		onLogLine("foo-exception").delayMillis(delayMs).throwException(new IllegalStateException(exceptionMessage));
+
+		long start = System.currentTimeMillis();
+		try {
+			logger.info("foo-exception");
+		} catch (IllegalStateException e) {
+			Assert.assertEquals(e.getMessage(), exceptionMessage);
+			long duration = System.currentTimeMillis() - start;
+			Assert.assertTrue("Expected at least a delay of " + delayMs + " ms",
+					duration >= delayMs && duration < delayMs + 20);
+			return;
+		}
+
+		Assert.fail("Expected exception to be thrown");
+	}
+
+	@Test
+	public void testActionIsntCalledOnDebugMessage() {
+		onLogLine("foo").throwException(new IllegalStateException());
+		logger.debug("foo");
 	}
 
 	private ILoggingEventFilterWrapper onLogLine(String string) {
