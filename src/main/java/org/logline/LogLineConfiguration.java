@@ -56,16 +56,19 @@ public class LogLineConfiguration {
 			this.filter = filter;
 		}
 
-		public void run(ILoggingEventAction... actions) {
+		public ILoggingEventFilterWrapper run(ILoggingEventAction... actions) {
 			LogLineConfiguration.addActionsForFilter(filter, actions);
+			return this;
 		}
 
-		public void throwException(RuntimeException e) {
+		public ILoggingEventFilterWrapper throwException(RuntimeException e) {
 			LogLineConfiguration.addActionsForFilter(filter, new ThrowExceptionLoggingEventAction(e));
+			return this;
 		}
 
-		public void delay(long delayMs) {
+		public ILoggingEventFilterWrapper delayMillis(long delayMs) {
 			LogLineConfiguration.addActionsForFilter(filter, new DelayLoggingEventAction(delayMs));
+			return this;
 		}
 	}
 }
