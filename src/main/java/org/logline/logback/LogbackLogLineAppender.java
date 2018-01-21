@@ -19,7 +19,7 @@ import ch.qos.logback.core.status.WarnStatus;
  * @author Yinon Sharifi
  */
 
-public class LogLineAppender extends ContextAwareBase implements Appender<ILoggingEvent> {
+public class LogbackLogLineAppender extends ContextAwareBase implements Appender<ILoggingEvent> {
 
 	private String name;
 
@@ -30,9 +30,9 @@ public class LogLineAppender extends ContextAwareBase implements Appender<ILoggi
 	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<>();
 
 	public void process(ILoggingEvent event) {
-		for (ILoggingEventFilter filter : LogLineConfiguration.getFilters()) {
-			LoggingEvent logbackLoggingEvent = new LoggingEvent(event);
+		LogbackLoggingEvent logbackLoggingEvent = new LogbackLoggingEvent(event);
 
+		for (ILoggingEventFilter filter : LogLineConfiguration.getFilters()) {
 			if (filter.accept(logbackLoggingEvent)) {
 				for (ILoggingEventAction action : LogLineConfiguration.getActions(filter)) {
 					action.act(logbackLoggingEvent);
