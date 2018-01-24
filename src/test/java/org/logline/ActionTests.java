@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.logline.LogLineConfigurations.ILoggingEventFilterWrapper;
+import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;

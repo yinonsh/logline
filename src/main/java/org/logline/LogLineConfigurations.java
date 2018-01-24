@@ -5,8 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.logline.actions.DelayLoggingEventAction;
-import org.logline.actions.ThrowExceptionLoggingEventAction;
+import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
 
 /**
  * @author Yinon Sharifi
@@ -53,29 +52,7 @@ public class LogLineConfigurations {
 
 	// syntactic sugar
 	public static ILoggingEventFilterWrapper on(ILoggingEventFilter filter) {
-		return new ILoggingEventFilterWrapper(filter);
+		return getDefault().on(filter);
 	}
 
-	public static class ILoggingEventFilterWrapper {
-		private final ILoggingEventFilter filter;
-
-		public ILoggingEventFilterWrapper(ILoggingEventFilter filter) {
-			this.filter = filter;
-		}
-
-		public ILoggingEventFilterWrapper run(ILoggingEventAction... actions) {
-			LogLineConfigurations.getDefault().addActionsForFilter(filter, actions);
-			return this;
-		}
-
-		public ILoggingEventFilterWrapper throwException(RuntimeException e) {
-			LogLineConfigurations.getDefault().addActionsForFilter(filter, new ThrowExceptionLoggingEventAction(e));
-			return this;
-		}
-
-		public ILoggingEventFilterWrapper delayMillis(long delayMs) {
-			LogLineConfigurations.getDefault().addActionsForFilter(filter, new DelayLoggingEventAction(delayMs));
-			return this;
-		}
-	}
 }
