@@ -53,9 +53,12 @@ public class FilterTests {
 		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<>();
 
 		patternToMatchedMessages.put("this is text", Arrays.asList("this is text"));
+		patternToMatchedMessages.put(".*(jim|joe).*",
+				Arrays.asList("humbapumpa jim", "humbapumpa joe", "humbapumpa joe jim", "humbapumpa joe aaaa"));
 
 		patternToUnmatchedMessages.put("this is text",
 				Arrays.asList("thisistext", "foo this is text  foo", "foo this is text", "this is text  foo"));
+		patternToUnmatchedMessages.put(".*(jim|joe).*", Arrays.asList("humbapumpa ji", "humbapumpa jom", "aaaaaaaaa"));
 
 		for (String pattern : patternToUnmatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
