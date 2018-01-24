@@ -55,11 +55,12 @@ public class FilterTests {
 		patternToMatchedMessages.put("this is text", Arrays.asList("this is text"));
 		patternToMatchedMessages.put(".*(jim|joe).*",
 				Arrays.asList("humbapumpa jim", "humbapumpa joe", "humbapumpa joe jim", "humbapumpa joe aaaa"));
+		patternToMatchedMessages.put("\\d\\d\\d([,\\s])?\\d\\d\\d\\d", Arrays.asList("1233323", "123 3323"));
 
 		patternToUnmatchedMessages.put("this is text",
-				Arrays.asList("thisistext", "foo this is text  foo", "foo this is text", "this is text  foo"));
+				Arrays.asList("thisistext", "foo this is text  foo", "foo this is text", "this is text  foo", ""));
 		patternToUnmatchedMessages.put(".*(jim|joe).*", Arrays.asList("humbapumpa ji", "humbapumpa jom", "aaaaaaaaa"));
-
+		patternToUnmatchedMessages.put("\\d\\d\\d([,\\s])?\\d\\d\\d\\d", Arrays.asList("1233323322"));
 		for (String pattern : patternToUnmatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
 			LogLineConfiguration.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
