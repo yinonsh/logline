@@ -52,6 +52,8 @@ public class FilterTests {
 		Map<String, List<String>> patternToMatchedMessages = new HashMap<>();
 		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<>();
 
+		// Examples taken from : http://www.vogella.com/tutorials/JavaRegularExpressions/article.html
+
 		patternToMatchedMessages.put("this is text", Arrays.asList("this is text"));
 		patternToMatchedMessages.put(".*(jim|joe).*",
 				Arrays.asList("humbapumpa jim", "humbapumpa joe", "humbapumpa joe jim", "humbapumpa joe aaaa"));
