@@ -14,6 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LogLineConfiguration {
 	private Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions;
 	private final String name;
+	private boolean isEnabled;
 
 	public LogLineConfiguration(String name) {
 		this(name, new ConcurrentHashMap<>());
@@ -22,6 +23,7 @@ public class LogLineConfiguration {
 	public LogLineConfiguration(String name, Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions) {
 		this.name = name;
 		this.filtersToActions = filtersToActions;
+		isEnabled = true;
 	}
 
 	public void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {
@@ -54,6 +56,14 @@ public class LogLineConfiguration {
 
 	public String getName() {
 		return name;
+	}
+
+	public boolean isEnabled() {
+		return isEnabled;
+	}
+
+	public void setEnabled(boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 
 }

@@ -13,6 +13,9 @@ public class LoggingEventProcessor {
 	}
 
 	private static void process(LogLineConfiguration configuration, ILoggingEvent event) {
+		if (!configuration.isEnabled()) {
+			return;
+		}
 		for (ILoggingEventFilter filter : configuration.getFilters()) {
 			if (filter.accept(event)) {
 				for (ILoggingEventAction action : configuration.getActions(filter)) {
