@@ -6,7 +6,7 @@ import org.apache.log4j.Logger;
  * @author Yinon Sharifi
  */
 
-public class Log4jLogger implements ILogger {
+public class Log4jLogger extends BaseLogger {
 
 	private Logger logger;
 

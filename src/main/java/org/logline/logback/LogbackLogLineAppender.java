@@ -25,7 +25,7 @@ public class LogbackLogLineAppender extends ContextAwareBase implements Appender
 
 	private boolean started;
 
-	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<>();
+	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<ILoggingEvent>();
 
 	public void process(ILoggingEvent event) {
 		LoggingEventProcessor.process(new LogbackLoggingEvent(event));

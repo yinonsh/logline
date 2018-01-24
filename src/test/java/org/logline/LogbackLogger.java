@@ -6,7 +6,7 @@ import ch.qos.logback.classic.Logger;
  * @author Yinon Sharifi
  */
 
-public class LogbackLogger implements ILogger {
+public class LogbackLogger extends BaseLogger {
 
 	private Logger logger;
 

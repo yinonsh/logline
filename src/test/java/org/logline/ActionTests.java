@@ -76,14 +76,19 @@ public class ActionTests {
 		long delayMs = 350;
 
 		onLogLine("foo").delayMillis(delayMs);
-		CountDownLatch latch = new CountDownLatch(1);
+		final CountDownLatch latch = new CountDownLatch(1);
 
 		long start = System.currentTimeMillis();
 
-		new Thread(() -> {
-			logger.info("foo");
-			latch.countDown();
-		}).start();
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				logger.info("foo");
+				latch.countDown();
+			}
+		};
+
+		new Thread(runnable).start();
 
 		latch.await();
 
@@ -133,8 +138,14 @@ public class ActionTests {
 		logger.debug("foo");
 	}
 
-	private ILoggingEventFilterWrapper onLogLine(String string) {
-		return on(x -> x.getFormattedMessage().contains(string));
+	private ILoggingEventFilterWrapper onLogLine(final String line) {
+		return on(new ILoggingEventFilter() {
+
+			@Override
+			public boolean accept(ILoggingEvent event) {
+				return event.getFormattedMessage().contains(line);
+			}
+		});
 	}
 
 }

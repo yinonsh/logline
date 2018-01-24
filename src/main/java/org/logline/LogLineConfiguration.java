@@ -17,7 +17,7 @@ public class LogLineConfiguration {
 	private boolean isEnabled;
 
 	public LogLineConfiguration(String name) {
-		this(name, new ConcurrentHashMap<>());
+		this(name, new ConcurrentHashMap<ILoggingEventFilter, List<ILoggingEventAction>>());
 	}
 
 	public LogLineConfiguration(String name, Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions) {
@@ -31,14 +31,22 @@ public class LogLineConfiguration {
 	}
 
 	public void addActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
-		List<ILoggingEventAction> list = filtersToActions.getOrDefault(filter, new ArrayList<>());
+		List<ILoggingEventAction> list = filtersToActions.get(filter);
+		if (list == null) {
+			list = new ArrayList<ILoggingEventAction>();
+		}
+
 		list.addAll(actions);
 		filtersToActions.put(filter, list);
 	}
 
 	public void setActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
-		List<ILoggingEventAction> list = filtersToActions.getOrDefault(filter, new ArrayList<>());
-		list.clear();
+		List<ILoggingEventAction> list = filtersToActions.get(filter);
+		if (list == null) {
+			list = new ArrayList<ILoggingEventAction>();
+		} else {
+			list.clear();
+		}
 		addActionsForFilter(filter, actions);
 	}
 
@@ -47,7 +55,7 @@ public class LogLineConfiguration {
 	}
 
 	public List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
-		return new ArrayList<>(filtersToActions.get(filter));
+		return new ArrayList<ILoggingEventAction>(filtersToActions.get(filter));
 	}
 
 	public void clear() {

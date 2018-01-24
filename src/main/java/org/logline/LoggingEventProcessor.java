@@ -9,7 +9,9 @@ import java.util.Collection;
 public class LoggingEventProcessor {
 	public static void process(ILoggingEvent event) {
 		Collection<LogLineConfiguration> allConfigurations = LogLineConfigurations.getAllConfigurations();
-		allConfigurations.forEach(x -> process(x, event));
+		for (LogLineConfiguration configuration : allConfigurations) {
+			process(configuration, event);
+		}
 	}
 
 	private static void process(LogLineConfiguration configuration, ILoggingEvent event) {

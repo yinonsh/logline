@@ -15,7 +15,7 @@ import org.logline.actions.ThrowExceptionLoggingEventAction;
 public class LogLineConfigurations {
 	public static final String DEFAULT_CONF = "_DEFAULT_CONFIGURATION_";
 
-	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<>();
+	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
 
 	static {
 		addConfiguration(new LogLineConfiguration(DEFAULT_CONF));
@@ -48,7 +48,7 @@ public class LogLineConfigurations {
 	}
 
 	public static Collection<LogLineConfiguration> getAllConfigurations() {
-		return new ArrayList<>(configurations.values());
+		return new ArrayList<LogLineConfiguration>(configurations.values());
 	}
 
 	// syntactic sugar

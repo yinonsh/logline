@@ -15,23 +15,13 @@ public interface ILogger {
 
 	void log(String message, Level level);
 
-	default void trace(String message) {
-		log(message, Level.TRACE);
-	}
+	void trace(String message);
 
-	default void debug(String message) {
-		log(message, Level.DEBUG);
-	}
+	void debug(String message);
 
-	default void info(String message) {
-		log(message, Level.INFO);
-	}
+	void info(String message);
 
-	default void warn(String message) {
-		log(message, Level.WARN);
-	}
+	void warn(String message);
 
-	default void error(String message) {
-		log(message, Level.ERROR);
-	}
+	void error(String message);
 }

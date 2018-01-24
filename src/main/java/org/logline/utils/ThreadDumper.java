@@ -16,7 +16,7 @@ public class ThreadDumper {
 			long start = System.currentTimeMillis();
 			Map<Thread, StackTraceElement[]> stackTraces = Thread.getAllStackTraces();
 
-			List<String> threadDumps = new ArrayList<>();
+			List<String> threadDumps = new ArrayList<String>();
 
 			for (Map.Entry<Thread, StackTraceElement[]> threadStackTrace : stackTraces.entrySet()) {
 				Thread t = threadStackTrace.getKey();

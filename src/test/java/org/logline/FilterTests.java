@@ -49,8 +49,8 @@ public class FilterTests {
 
 	@Test
 	public void testPatternBasedFilter() {
-		Map<String, List<String>> patternToMatchedMessages = new HashMap<>();
-		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<>();
+		Map<String, List<String>> patternToMatchedMessages = new HashMap<String, List<String>>();
+		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<String, List<String>>();
 
 		// Examples taken from : http://www.vogella.com/tutorials/JavaRegularExpressions/article.html
 
