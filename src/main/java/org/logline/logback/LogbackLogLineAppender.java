@@ -2,9 +2,7 @@ package org.logline.logback;
 
 import java.util.List;
 
-import org.logline.ILoggingEventAction;
-import org.logline.ILoggingEventFilter;
-import org.logline.LogLineConfiguration;
+import org.logline.LoggingEventProcessor;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
@@ -30,15 +28,7 @@ public class LogbackLogLineAppender extends ContextAwareBase implements Appender
 	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<>();
 
 	public void process(ILoggingEvent event) {
-		LogbackLoggingEvent logbackLoggingEvent = new LogbackLoggingEvent(event);
-
-		for (ILoggingEventFilter filter : LogLineConfiguration.getFilters()) {
-			if (filter.accept(logbackLoggingEvent)) {
-				for (ILoggingEventAction action : LogLineConfiguration.getActions(filter)) {
-					action.act(logbackLoggingEvent);
-				}
-			}
-		}
+		LoggingEventProcessor.process(new LogbackLoggingEvent(event));
 	}
 
 	/**
