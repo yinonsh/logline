@@ -1,6 +1,6 @@
 package org.logline;
 
-import static org.logline.LogLineConfiguration.on;
+import static org.logline.LogLineConfigurations.on;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
-import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
+import org.logline.LogLineConfigurations.ILoggingEventFilterWrapper;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;
@@ -42,7 +42,7 @@ public class ActionTests {
 	@Before
 	public void clearConfiguration() {
 		logger.info("Clearing logline configuration");
-		LogLineConfiguration.clear();
+		LogLineConfigurations.clear();
 	}
 
 	@Test

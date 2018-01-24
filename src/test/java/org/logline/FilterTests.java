@@ -44,7 +44,7 @@ public class FilterTests {
 	@Before
 	public void clearConfiguration() {
 		logger.info("Clearing logline configuration");
-		LogLineConfiguration.clear();
+		LogLineConfigurations.clear();
 	}
 
 	@Test
@@ -65,7 +65,7 @@ public class FilterTests {
 		patternToUnmatchedMessages.put("\\d\\d\\d([,\\s])?\\d\\d\\d\\d", Arrays.asList("1233323322"));
 		for (String pattern : patternToUnmatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
-			LogLineConfiguration.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+			LogLineConfigurations.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
 
 			for (String match : patternToUnmatchedMessages.get(pattern)) {
 				logger.info(match);
@@ -74,7 +74,7 @@ public class FilterTests {
 
 		for (String pattern : patternToMatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
-			LogLineConfiguration.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+			LogLineConfigurations.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
 
 			for (String match : patternToMatchedMessages.get(pattern)) {
 				try {
@@ -91,7 +91,7 @@ public class FilterTests {
 
 	@Test
 	public void testExactMessageFilter() {
-		LogLineConfiguration.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+		LogLineConfigurations.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
 
 		logger.info("foooo");
 		logger.info("oofoo");
@@ -107,7 +107,7 @@ public class FilterTests {
 
 	@Test
 	public void testStartWithMessageFilter() {
-		LogLineConfiguration.on(new StartsWithMessageLoggingEventFilter("foo"))
+		LogLineConfigurations.on(new StartsWithMessageLoggingEventFilter("foo"))
 				.throwException(new IllegalStateException());
 
 		logger.info("oofoo");

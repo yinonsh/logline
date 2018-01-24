@@ -7,68 +7,53 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.logline.actions.DelayLoggingEventAction;
-import org.logline.actions.ThrowExceptionLoggingEventAction;
-
 /**
  * @author Yinon Sharifi
  */
 
 public class LogLineConfiguration {
-	private static Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions = new ConcurrentHashMap<>();
+	private Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions;
+	private final String name;
 
-	public static void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {
+	public LogLineConfiguration(String name) {
+		this(name, new ConcurrentHashMap<>());
+	}
+
+	public LogLineConfiguration(String name, Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions) {
+		this.name = name;
+		this.filtersToActions = filtersToActions;
+	}
+
+	public void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {
 		addActionsForFilter(filter, Arrays.asList(actions));
 	}
 
-	public static void addActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
+	public void addActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
 		List<ILoggingEventAction> list = filtersToActions.getOrDefault(filter, new ArrayList<>());
 		list.addAll(actions);
 		filtersToActions.put(filter, list);
 	}
 
-	public static void setActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
+	public void setActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
 		List<ILoggingEventAction> list = filtersToActions.getOrDefault(filter, new ArrayList<>());
 		list.clear();
 		addActionsForFilter(filter, actions);
 	}
 
-	public static Collection<ILoggingEventFilter> getFilters() {
+	public Collection<ILoggingEventFilter> getFilters() {
 		return filtersToActions.keySet();
 	}
 
-	public static List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
+	public List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
 		return new ArrayList<>(filtersToActions.get(filter));
 	}
 
-	public static void clear() {
+	public void clear() {
 		filtersToActions.clear();
 	}
 
-	public static ILoggingEventFilterWrapper on(ILoggingEventFilter filter) {
-		return new ILoggingEventFilterWrapper(filter);
+	public String getName() {
+		return name;
 	}
 
-	public static class ILoggingEventFilterWrapper {
-		private final ILoggingEventFilter filter;
-
-		public ILoggingEventFilterWrapper(ILoggingEventFilter filter) {
-			this.filter = filter;
-		}
-
-		public ILoggingEventFilterWrapper run(ILoggingEventAction... actions) {
-			LogLineConfiguration.addActionsForFilter(filter, actions);
-			return this;
-		}
-
-		public ILoggingEventFilterWrapper throwException(RuntimeException e) {
-			LogLineConfiguration.addActionsForFilter(filter, new ThrowExceptionLoggingEventAction(e));
-			return this;
-		}
-
-		public ILoggingEventFilterWrapper delayMillis(long delayMs) {
-			LogLineConfiguration.addActionsForFilter(filter, new DelayLoggingEventAction(delayMs));
-			return this;
-		}
-	}
 }
