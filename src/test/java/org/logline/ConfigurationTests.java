@@ -39,7 +39,7 @@ public class ConfigurationTests {
 	@Before
 	public void clearConfiguration() {
 		logger.info("Clearing logline configuration");
-		LogLineConfigurations.clear();
+		LogLineConfigurationRepository.clear();
 	}
 
 	public void testMultipleConfigurationsInAdditionToDefault() {
@@ -67,7 +67,7 @@ public class ConfigurationTests {
 		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
 		conf2.on(new ExactMessageLoggingEventFilter("bar")).throwException(new IllegalStateException());
 
-		LogLineConfigurations.on(new ExactMessageLoggingEventFilter("baz"))
+		LogLineConfigurationRepository.on(new ExactMessageLoggingEventFilter("baz"))
 				.throwException(new IllegalArgumentException());
 
 		assertThrownException(logger, "foo", IllegalStateException.class);

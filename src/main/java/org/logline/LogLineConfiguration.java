@@ -33,7 +33,7 @@ public class LogLineConfiguration {
 		this.filtersToActions = filtersToActions;
 		this.isEnabled = isEnabled;
 
-		LogLineConfigurations.addConfiguration(this);
+		LogLineConfigurationRepository.addConfiguration(this);
 	}
 
 	public void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {

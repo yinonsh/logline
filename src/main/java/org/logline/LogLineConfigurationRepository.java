@@ -11,7 +11,7 @@ import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
  * @author Yinon Sharifi
  */
 
-public class LogLineConfigurations {
+public class LogLineConfigurationRepository {
 	public static final String DEFAULT_CONF = "_DEFAULT_CONFIGURATION_";
 
 	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
