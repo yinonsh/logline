@@ -1,6 +1,7 @@
 package org.logline;
 
 import static org.logline.LogLineConfigurations.on;
+import static org.logline.TestUtils.assertThrownException;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -102,14 +103,7 @@ public class ActionTests {
 		String exceptionMessage = "Dummy exception";
 		onLogLine("foo").throwException(new IllegalStateException(exceptionMessage));
 
-		try {
-			logger.info("foo");
-		} catch (IllegalStateException e) {
-			Assert.assertEquals(e.getMessage(), exceptionMessage);
-			return;
-		}
-
-		Assert.fail("Expected exception to be thrown");
+		assertThrownException(logger, "foo", IllegalStateException.class);
 	}
 
 	@Test
@@ -119,17 +113,12 @@ public class ActionTests {
 		onLogLine("foo-exception").delayMillis(delayMs).throwException(new IllegalStateException(exceptionMessage));
 
 		long start = System.currentTimeMillis();
-		try {
-			logger.info("foo-exception");
-		} catch (IllegalStateException e) {
-			Assert.assertEquals(e.getMessage(), exceptionMessage);
-			long duration = System.currentTimeMillis() - start;
-			Assert.assertTrue("Expected at least a delay of " + delayMs + " ms",
-					duration >= delayMs && duration < delayMs + 20);
-			return;
-		}
 
-		Assert.fail("Expected exception to be thrown");
+		Exception e = assertThrownException(logger, "foo-exception", IllegalStateException.class);
+		Assert.assertEquals(e.getMessage(), exceptionMessage);
+		long duration = System.currentTimeMillis() - start;
+		Assert.assertTrue("Expected at least a delay of " + delayMs + " ms",
+				duration >= delayMs && duration < delayMs + 20);
 	}
 
 	@Test

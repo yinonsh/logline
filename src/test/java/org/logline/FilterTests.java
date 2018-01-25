@@ -1,5 +1,7 @@
 package org.logline;
 
+import static org.logline.TestUtils.assertThrownException;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -7,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -77,13 +78,7 @@ public class FilterTests {
 			LogLineConfigurations.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
 
 			for (String match : patternToMatchedMessages.get(pattern)) {
-				try {
-					logger.info(match);
-				} catch (IllegalStateException e) {
-					continue;
-				}
-
-				Assert.fail("Expected exception to be thrown");
+				assertThrownException(logger, match, IllegalStateException.class);
 			}
 		}
 
@@ -96,13 +91,7 @@ public class FilterTests {
 		logger.info("foooo");
 		logger.info("oofoo");
 
-		try {
-			logger.info("foo");
-		} catch (IllegalStateException e) {
-			return;
-		}
-
-		Assert.fail("Expected exception to be thrown");
+		assertThrownException(logger, "foo", IllegalStateException.class);
 	}
 
 	@Test
@@ -111,13 +100,41 @@ public class FilterTests {
 				.throwException(new IllegalStateException());
 
 		logger.info("oofoo");
+		assertThrownException(logger, "fooooooo", IllegalStateException.class);
+	}
 
-		try {
-			logger.info("fooooooo");
-		} catch (IllegalStateException e) {
-			return;
-		}
+	public void testMultipleConfigurationsInAdditionToDefault() {
 
-		Assert.fail("Expected exception to be thrown");
+	}
+
+	public void testMutlipleConfigurationsOrder() {
+
+	}
+
+	public void testConflictingConfigurations() {
+		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
+		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+
+		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
+		conf2.on(new ExactMessageLoggingEventFilter("foo")).throwException(new NullPointerException());
+
+	}
+
+	@Test
+	public void testNamedConfiguration() {
+		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
+		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+
+		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
+		conf2.on(new ExactMessageLoggingEventFilter("bar")).throwException(new IllegalStateException());
+
+		LogLineConfigurations.addConfiguration(conf1);
+		LogLineConfigurations.addConfiguration(conf2);
+		assertThrownException(logger, "foo", IllegalStateException.class);
+		assertThrownException(logger, "bar", IllegalStateException.class);
+	}
+
+	public void testDisableConfiguration() {
+
 	}
 }
