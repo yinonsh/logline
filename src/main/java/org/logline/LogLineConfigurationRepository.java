@@ -17,19 +17,19 @@ public class LogLineConfigurationRepository {
 	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
 
 	static {
-		addConfiguration(new LogLineConfiguration(DEFAULT_CONF));
+		register(new LogLineConfiguration(DEFAULT_CONF));
 	}
 
-	public static void addConfiguration(LogLineConfiguration configuration) {
+	public static void register(LogLineConfiguration configuration) {
 		configurations.put(configuration.getName(), configuration);
 	}
 
 	public static void clear() {
 		configurations.clear();
-		addConfiguration(new LogLineConfiguration(DEFAULT_CONF));
+		register(new LogLineConfiguration(DEFAULT_CONF));
 	}
 
-	public static LogLineConfiguration removeConfiguration(String name) {
+	public static LogLineConfiguration unregister(String name) {
 		return configurations.remove(name);
 	}
 
