@@ -24,9 +24,16 @@ public class LogLineConfiguration {
 	}
 
 	public LogLineConfiguration(String name, Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions) {
+		this(name, filtersToActions, true);
+	}
+
+	public LogLineConfiguration(String name, Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions,
+			boolean isEnabled) {
 		this.name = name;
 		this.filtersToActions = filtersToActions;
-		isEnabled = true;
+		this.isEnabled = isEnabled;
+
+		LogLineConfigurations.addConfiguration(this);
 	}
 
 	public void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {
