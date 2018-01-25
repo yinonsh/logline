@@ -36,28 +36,17 @@ public class LogLineConfiguration {
 		LogLineConfigurationRegistry.register(this);
 	}
 
-	public void addActionsForFilter(ILoggingEventFilter filter, ILoggingEventAction... actions) {
-		addActionsForFilter(filter, Arrays.asList(actions));
+	public void put(ILoggingEventFilter filter, ILoggingEventAction... actions) {
+		put(filter, Arrays.asList(actions));
 	}
 
-	public void addActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
-		List<ILoggingEventAction> list = filtersToActions.get(filter);
-		if (list == null) {
-			list = new ArrayList<ILoggingEventAction>();
+	public void put(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
+		List<ILoggingEventAction> existingActions = filtersToActions.get(filter);
+		if (existingActions == null) {
+			existingActions = new ArrayList<ILoggingEventAction>();
+			filtersToActions.put(filter, existingActions);
 		}
-
-		list.addAll(actions);
-		filtersToActions.put(filter, list);
-	}
-
-	public void setActionsForFilter(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
-		List<ILoggingEventAction> list = filtersToActions.get(filter);
-		if (list == null) {
-			list = new ArrayList<ILoggingEventAction>();
-		} else {
-			list.clear();
-		}
-		addActionsForFilter(filter, actions);
+		existingActions.addAll(actions);
 	}
 
 	public Collection<ILoggingEventFilter> getFilters() {
@@ -99,17 +88,17 @@ public class LogLineConfiguration {
 		}
 
 		public ILoggingEventFilterWrapper run(ILoggingEventAction... actions) {
-			configuration.addActionsForFilter(filter, actions);
+			configuration.put(filter, actions);
 			return this;
 		}
 
 		public ILoggingEventFilterWrapper throwException(RuntimeException e) {
-			configuration.addActionsForFilter(filter, new ThrowExceptionLoggingEventAction(e));
+			configuration.put(filter, new ThrowExceptionLoggingEventAction(e));
 			return this;
 		}
 
 		public ILoggingEventFilterWrapper delayMillis(long delayMs) {
-			configuration.addActionsForFilter(filter, new DelayLoggingEventAction(delayMs));
+			configuration.put(filter, new DelayLoggingEventAction(delayMs));
 			return this;
 		}
 	}
