@@ -81,7 +81,6 @@ public class FilterTests {
 				assertThrownException(logger, match, IllegalStateException.class);
 			}
 		}
-
 	}
 
 	@Test
@@ -103,38 +102,4 @@ public class FilterTests {
 		assertThrownException(logger, "fooooooo", IllegalStateException.class);
 	}
 
-	public void testMultipleConfigurationsInAdditionToDefault() {
-
-	}
-
-	public void testMutlipleConfigurationsOrder() {
-
-	}
-
-	public void testConflictingConfigurations() {
-		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
-		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
-
-		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
-		conf2.on(new ExactMessageLoggingEventFilter("foo")).throwException(new NullPointerException());
-
-	}
-
-	@Test
-	public void testNamedConfiguration() {
-		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
-		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
-
-		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
-		conf2.on(new ExactMessageLoggingEventFilter("bar")).throwException(new IllegalStateException());
-
-		LogLineConfigurations.addConfiguration(conf1);
-		LogLineConfigurations.addConfiguration(conf2);
-		assertThrownException(logger, "foo", IllegalStateException.class);
-		assertThrownException(logger, "bar", IllegalStateException.class);
-	}
-
-	public void testDisableConfiguration() {
-
-	}
 }
