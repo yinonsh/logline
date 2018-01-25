@@ -1,6 +1,6 @@
 package org.logline;
 
-import static org.logline.LogLineConfigurationRepository.on;
+import static org.logline.LogLineConfigurationRegistry.on;
 import static org.logline.TestUtils.assertThrownException;
 
 import java.util.Arrays;
@@ -43,7 +43,7 @@ public class ActionTests {
 	@Before
 	public void clearConfiguration() {
 		logger.info("Clearing logline configuration");
-		LogLineConfigurationRepository.clear();
+		LogLineConfigurationRegistry.clear();
 	}
 
 	@Test

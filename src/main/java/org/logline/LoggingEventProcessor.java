@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class LoggingEventProcessor {
 	public static void process(ILoggingEvent event) {
-		Collection<LogLineConfiguration> allConfigurations = LogLineConfigurationRepository.getAllConfigurations();
+		Collection<LogLineConfiguration> allConfigurations = LogLineConfigurationRegistry.getAllConfigurations();
 		for (LogLineConfiguration configuration : allConfigurations) {
 			process(configuration, event);
 		}

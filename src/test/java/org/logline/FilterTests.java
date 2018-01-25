@@ -45,7 +45,7 @@ public class FilterTests {
 	@Before
 	public void clearConfiguration() {
 		logger.info("Clearing logline configuration");
-		LogLineConfigurationRepository.clear();
+		LogLineConfigurationRegistry.clear();
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class FilterTests {
 		patternToUnmatchedMessages.put("\\d\\d\\d([,\\s])?\\d\\d\\d\\d", Arrays.asList("1233323322"));
 		for (String pattern : patternToUnmatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
-			LogLineConfigurationRepository.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+			LogLineConfigurationRegistry.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
 
 			for (String match : patternToUnmatchedMessages.get(pattern)) {
 				logger.info(match);
@@ -75,7 +75,7 @@ public class FilterTests {
 
 		for (String pattern : patternToMatchedMessages.keySet()) {
 			Pattern p = Pattern.compile(pattern);
-			LogLineConfigurationRepository.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
+			LogLineConfigurationRegistry.on(new PatternBasedLoggingEventFilter(p)).throwException(new IllegalStateException());
 
 			for (String match : patternToMatchedMessages.get(pattern)) {
 				assertThrownException(logger, match, IllegalStateException.class);
@@ -85,7 +85,7 @@ public class FilterTests {
 
 	@Test
 	public void testExactMessageFilter() {
-		LogLineConfigurationRepository.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+		LogLineConfigurationRegistry.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
 
 		logger.info("foooo");
 		logger.info("oofoo");
@@ -95,7 +95,7 @@ public class FilterTests {
 
 	@Test
 	public void testStartWithMessageFilter() {
-		LogLineConfigurationRepository.on(new StartsWithMessageLoggingEventFilter("foo"))
+		LogLineConfigurationRegistry.on(new StartsWithMessageLoggingEventFilter("foo"))
 				.throwException(new IllegalStateException());
 
 		logger.info("oofoo");
