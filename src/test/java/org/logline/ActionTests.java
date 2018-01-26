@@ -122,9 +122,10 @@ public class ActionTests {
 	}
 
 	@Test
-	public void testActionIsntCalledOnDebugMessage() {
+	public void tesActionsOnDifferentMessageLevels() {
 		onLogLine("foo").throwException(new IllegalStateException());
 		logger.debug("foo");
+		assertThrownException(logger, "foo", IllegalStateException.class);
 	}
 
 	private ILoggingEventFilterWrapper onLogLine(final String line) {

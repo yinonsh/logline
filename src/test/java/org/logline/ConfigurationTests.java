@@ -42,10 +42,6 @@ public class ConfigurationTests {
 		LogLineConfigurationRegistry.clear();
 	}
 
-	public void testMultipleConfigurationsInAdditionToDefault() {
-
-	}
-
 	@Test
 	public void testOrderOfConfigurations() {
 		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
@@ -73,10 +69,38 @@ public class ConfigurationTests {
 		assertThrownException(logger, "foo", IllegalStateException.class);
 		assertThrownException(logger, "bar", IllegalStateException.class);
 		assertThrownException(logger, "baz", IllegalArgumentException.class);
-
 	}
 
+	@Test
 	public void testDisableConfiguration() {
+		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
+		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
 
+		LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
+		conf2.on(new ExactMessageLoggingEventFilter("foo")).throwException(new NullPointerException());
+
+		assertThrownException(logger, "foo", NullPointerException.class);
+		conf2.setEnabled(false);
+		assertThrownException(logger, "foo", IllegalStateException.class);
+		conf1.setEnabled(false);
+		logger.info("foo");
+
+		conf1.setEnabled(true);
+		assertThrownException(logger, "foo", IllegalStateException.class);
+		conf2.setEnabled(true);
+		assertThrownException(logger, "foo", NullPointerException.class);
+	}
+
+	@Test
+	public void testRegisterOperations() {
+		LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
+		conf1.on(new ExactMessageLoggingEventFilter("foo")).throwException(new IllegalStateException());
+		assertThrownException(logger, "foo", IllegalStateException.class);
+		LogLineConfigurationRegistry.unregister("conf1");
+		logger.info("foo");
+
+		LogLineConfigurationRegistry.register(conf1);
+
+		assertThrownException(logger, "foo", IllegalStateException.class);
 	}
 }
