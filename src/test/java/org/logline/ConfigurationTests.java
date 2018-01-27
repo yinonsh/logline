@@ -11,6 +11,9 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.logline.filters.ExactMessageLoggingEventFilter;
+import org.logline.logger.ILogger;
+import org.logline.logger.Log4jLogger;
+import org.logline.logger.LogbackLogger;
 import org.slf4j.LoggerFactory;
 
 import ch.qos.logback.classic.Logger;

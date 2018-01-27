@@ -1,4 +1,4 @@
-package org.logline;
+package org.logline.logger;
 
 /**
  * @author Yinon Sharifi

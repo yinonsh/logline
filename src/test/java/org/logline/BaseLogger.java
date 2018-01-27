@@ -1,5 +1,7 @@
 package org.logline;
 
+import org.logline.logger.ILogger;
+
 public abstract class BaseLogger implements ILogger {
 	@Override
 	public void trace(String message) {

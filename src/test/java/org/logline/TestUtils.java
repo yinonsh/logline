@@ -1,6 +1,7 @@
 package org.logline;
 
 import org.junit.Assert;
+import org.logline.logger.ILogger;
 
 public class TestUtils {
 	public static Exception assertThrownException(ILogger logger, String line,

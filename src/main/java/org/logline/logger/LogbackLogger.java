@@ -1,4 +1,6 @@
-package org.logline;
+package org.logline.logger;
+
+import org.logline.BaseLogger;
 
 import ch.qos.logback.classic.Logger;
 
