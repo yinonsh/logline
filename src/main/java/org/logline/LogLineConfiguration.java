@@ -46,7 +46,7 @@ public class LogLineConfiguration implements Serializable {
 	public void put(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
 		List<ILoggingEventAction> existingActions = filtersToActions.get(filter);
 		if (existingActions == null) {
-			existingActions = new ArrayList<>();
+			existingActions = new ArrayList<ILoggingEventAction>();
 			filtersToActions.put(filter, existingActions);
 		}
 		existingActions.addAll(actions);
@@ -57,7 +57,7 @@ public class LogLineConfiguration implements Serializable {
 	}
 
 	public List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
-		return new ArrayList<>(filtersToActions.get(filter));
+		return new ArrayList<ILoggingEventAction>(filtersToActions.get(filter));
 	}
 
 	public void clear() {

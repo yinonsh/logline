@@ -17,7 +17,7 @@ public class LogLineConfigurationRegistry implements Serializable {
 
 	public static final String DEFAULT_CONF = "_DEFAULT_CONFIGURATION_";
 
-	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<>();
+	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
 
 	static {
 		register(new LogLineConfiguration(DEFAULT_CONF));
@@ -50,7 +50,7 @@ public class LogLineConfigurationRegistry implements Serializable {
 	}
 
 	public static Collection<LogLineConfiguration> getAllConfigurations() {
-		return new ArrayList<>(configurations.values());
+		return new ArrayList<LogLineConfiguration>(configurations.values());
 	}
 
 	// syntactic sugar
