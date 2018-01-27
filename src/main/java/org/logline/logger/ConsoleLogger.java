@@ -1,7 +1,5 @@
 package org.logline.logger;
 
-import org.logline.BaseLogger;
-
 /**
  * @author Yinon Sharifi
  */

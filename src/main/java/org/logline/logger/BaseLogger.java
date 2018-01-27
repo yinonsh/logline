@@ -1,6 +1,4 @@
-package org.logline;
-
-import org.logline.logger.ILogger;
+package org.logline.logger;
 
 public abstract class BaseLogger implements ILogger {
 	@Override
