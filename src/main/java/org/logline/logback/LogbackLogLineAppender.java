@@ -27,10 +27,6 @@ public class LogbackLogLineAppender extends ContextAwareBase implements Appender
 
 	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<ILoggingEvent>();
 
-	public void process(ILoggingEvent event) {
-		LoggingEventProcessor.process(new LogbackLoggingEvent(event));
-	}
-
 	/**
 	 * The guard prevents an appender from repeatedly calling its own doAppend
 	 * method.
@@ -52,7 +48,7 @@ public class LogbackLogLineAppender extends ContextAwareBase implements Appender
 				return;
 			}
 
-			process(eventObject);
+			LoggingEventProcessor.process(new LogbackLoggingEvent(eventObject));
 		} finally {
 			guard = false;
 		}
