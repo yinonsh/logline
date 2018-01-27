@@ -1,5 +1,6 @@
 package org.logline;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -11,10 +12,12 @@ import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
  * @author Yinon Sharifi
  */
 
-public class LogLineConfigurationRegistry {
+public class LogLineConfigurationRegistry implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	public static final String DEFAULT_CONF = "_DEFAULT_CONFIGURATION_";
 
-	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
+	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<>();
 
 	static {
 		register(new LogLineConfiguration(DEFAULT_CONF));
@@ -47,7 +50,7 @@ public class LogLineConfigurationRegistry {
 	}
 
 	public static Collection<LogLineConfiguration> getAllConfigurations() {
-		return new ArrayList<LogLineConfiguration>(configurations.values());
+		return new ArrayList<>(configurations.values());
 	}
 
 	// syntactic sugar

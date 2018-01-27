@@ -1,5 +1,6 @@
 package org.logline;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +15,9 @@ import org.logline.actions.ThrowExceptionLoggingEventAction;
  * @author Yinon Sharifi
  */
 
-public class LogLineConfiguration {
+public class LogLineConfiguration implements Serializable {
+	private static final long serialVersionUID = 1L;
+
 	private Map<ILoggingEventFilter, List<ILoggingEventAction>> filtersToActions;
 	private final String name;
 	private boolean isEnabled;
@@ -43,7 +46,7 @@ public class LogLineConfiguration {
 	public void put(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
 		List<ILoggingEventAction> existingActions = filtersToActions.get(filter);
 		if (existingActions == null) {
-			existingActions = new ArrayList<ILoggingEventAction>();
+			existingActions = new ArrayList<>();
 			filtersToActions.put(filter, existingActions);
 		}
 		existingActions.addAll(actions);
@@ -54,7 +57,7 @@ public class LogLineConfiguration {
 	}
 
 	public List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
-		return new ArrayList<ILoggingEventAction>(filtersToActions.get(filter));
+		return new ArrayList<>(filtersToActions.get(filter));
 	}
 
 	public void clear() {

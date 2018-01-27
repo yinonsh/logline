@@ -8,6 +8,7 @@ import org.logline.ILoggingEventFilter;
  */
 
 public class ExactMessageLoggingEventFilter implements ILoggingEventFilter {
+	private static final long serialVersionUID = 1L;
 	private String message;
 
 	public ExactMessageLoggingEventFilter(String message) {

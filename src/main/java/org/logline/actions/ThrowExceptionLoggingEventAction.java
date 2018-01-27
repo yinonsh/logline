@@ -8,6 +8,7 @@ import org.logline.ILoggingEventAction;
  */
 
 public class ThrowExceptionLoggingEventAction implements ILoggingEventAction {
+	private static final long serialVersionUID = 1L;
 	private RuntimeException exception;
 
 	public ThrowExceptionLoggingEventAction(RuntimeException exception) {

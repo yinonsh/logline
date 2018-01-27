@@ -8,6 +8,7 @@ import org.logline.ILoggingEventAction;
  */
 
 public class SystemExitLoggingEventAction implements ILoggingEventAction {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void act(ILoggingEvent loggingEvent) {

@@ -8,6 +8,7 @@ import org.logline.ILoggingEventAction;
  */
 
 public class NotifyEventLoggingEventAction implements ILoggingEventAction {
+	private static final long serialVersionUID = 1L;
 	private final Object event;
 
 	public NotifyEventLoggingEventAction(Object event) {

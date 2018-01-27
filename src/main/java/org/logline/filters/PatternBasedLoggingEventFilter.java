@@ -10,6 +10,7 @@ import org.logline.ILoggingEventFilter;
  */
 
 public class PatternBasedLoggingEventFilter implements ILoggingEventFilter {
+	private static final long serialVersionUID = 1L;
 	private Pattern pattern;
 
 	public PatternBasedLoggingEventFilter(Pattern pattern) {
