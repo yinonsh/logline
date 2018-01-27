@@ -14,6 +14,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
+import org.logline.actions.DumpStackTraceLoggingEventAction;
+import org.logline.logger.ConsoleLogger;
 import org.logline.logger.ILogger;
 import org.logline.logger.Log4jLogger;
 import org.logline.logger.LogbackLogger;
@@ -131,8 +133,28 @@ public class ActionTests {
 		assertThrownException(logger, "foo", IllegalStateException.class);
 	}
 
+	@Test
+	public void testNoInfiniteLogging() {
+		onLogLine("foo").run(new ILoggingEventAction() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void act(ILoggingEvent loggingEvent) {
+				logger.info("foo");
+			}
+		});
+		logger.info("foo");
+	}
+
+	@Test
+	public void testThreadDumpAction() {
+		onLogLine("bar").run(new DumpStackTraceLoggingEventAction(new ConsoleLogger()));
+		logger.info("bar");
+	}
+
 	private ILoggingEventFilterWrapper onLogLine(final String line) {
 		return on(new ILoggingEventFilter() {
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public boolean accept(ILoggingEvent event) {
