@@ -19,9 +19,26 @@ public class Log4jLogLineAppender extends AppenderSkeleton {
 		return false;
 	}
 
+	/**
+	 * The guard prevents an appender from repeatedly calling its own doAppend
+	 * method.
+	 */
+	private boolean guard = false;
+
 	@Override
 	protected void append(LoggingEvent event) {
-		LoggingEventProcessor.process(new Log4jLoggingEvent(event));
+		// prevent re-entry.
+		if (guard) {
+			return;
+		}
+
+		try {
+			guard = true;
+			LoggingEventProcessor.process(new Log4jLoggingEvent(event));
+		} finally {
+			guard = false;
+		}
+
 	}
 
 }
