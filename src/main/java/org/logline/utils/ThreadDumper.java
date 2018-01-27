@@ -5,13 +5,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.logline.logger.ILogger;
+
 /**
  * @author Yinon Sharifi
  */
 
 public class ThreadDumper {
 
-	public static void dumpAllThreadStackTraces() {
+	public static void dumpAllThreadStackTraces(ILogger logger) {
 		try {
 			long start = System.currentTimeMillis();
 			Map<Thread, StackTraceElement[]> stackTraces = Thread.getAllStackTraces();
@@ -31,7 +33,6 @@ public class ThreadDumper {
 				}
 
 				threadDump.append("\n\n");
-
 				threadDumps.add(threadDump.toString());
 			}
 
@@ -45,11 +46,11 @@ public class ThreadDumper {
 				fullDump.append(td);
 			}
 
-			System.out.println(fullDump.toString());
+			logger.info(fullDump.toString());
 			long duration = System.currentTimeMillis() - start;
-			System.out.println(String.format("Took %d ms to dump all threads stack traces to log", duration));
+			logger.info(String.format("Took %d ms to dump all threads stack traces to log", duration));
 		} catch (Exception e) {
-			System.out.println("Failed to generate full thread dump");
+			logger.info("Failed to generate full thread dump");
 			e.printStackTrace();
 		}
 	}
