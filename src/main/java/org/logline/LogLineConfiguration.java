@@ -9,7 +9,10 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.logline.actions.DelayLoggingEventAction;
+import org.logline.actions.DumpStackTraceLoggingEventAction;
+import org.logline.actions.SystemExitLoggingEventAction;
 import org.logline.actions.ThrowExceptionLoggingEventAction;
+import org.logline.logger.ILogger;
 
 /**
  * @author Yinon Sharifi
@@ -102,6 +105,16 @@ public class LogLineConfiguration implements Serializable {
 
 		public ILoggingEventFilterWrapper delayMillis(long delayMs) {
 			configuration.put(filter, new DelayLoggingEventAction(delayMs));
+			return this;
+		}
+
+		public ILoggingEventFilterWrapper threadDump(ILogger logger) {
+			configuration.put(filter, new DumpStackTraceLoggingEventAction(logger));
+			return this;
+		}
+
+		public ILoggingEventFilterWrapper exit(int exitCode) {
+			configuration.put(filter, new SystemExitLoggingEventAction(exitCode));
 			return this;
 		}
 	}
