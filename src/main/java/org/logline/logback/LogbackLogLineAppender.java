@@ -2,7 +2,7 @@ package org.logline.logback;
 
 import java.util.List;
 
-import org.logline.LoggingEventProcessor;
+import org.logline.LogLineAppender;
 
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.Appender;
@@ -27,31 +27,21 @@ public class LogbackLogLineAppender extends ContextAwareBase implements Appender
 
 	private FilterAttachableImpl<ILoggingEvent> fai = new FilterAttachableImpl<ILoggingEvent>();
 
+	private LogLineAppender logLineAppender = new LogLineAppender();
+
 	/**
 	 * The guard prevents an appender from repeatedly calling its own doAppend
 	 * method.
 	 */
-	private boolean guard = false;
 
 	@Override
-	public synchronized void doAppend(ILoggingEvent eventObject) {
-		// prevent re-entry.
-		if (guard) {
+	public void doAppend(ILoggingEvent eventObject) {
+		if (!started) {
+			addStatus(new WarnStatus("Attempted to append to non started appender [" + name + "].", this));
 			return;
 		}
 
-		try {
-			guard = true;
-
-			if (!started) {
-				addStatus(new WarnStatus("Attempted to append to non started appender [" + name + "].", this));
-				return;
-			}
-
-			LoggingEventProcessor.process(new LogbackLoggingEvent(eventObject));
-		} finally {
-			guard = false;
-		}
+		logLineAppender.doAppend(new LogbackLoggingEvent(eventObject));
 	}
 
 	@Override

@@ -2,13 +2,14 @@ package org.logline.log4j;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
-import org.logline.LoggingEventProcessor;
+import org.logline.LogLineAppender;
 
 /**
  * @author Yinon Sharifi
  */
 
 public class Log4jLogLineAppender extends AppenderSkeleton {
+	private LogLineAppender logLineAppender = new LogLineAppender();
 
 	@Override
 	public void close() {
@@ -23,22 +24,10 @@ public class Log4jLogLineAppender extends AppenderSkeleton {
 	 * The guard prevents an appender from repeatedly calling its own doAppend
 	 * method.
 	 */
-	private boolean guard = false;
 
 	@Override
 	protected void append(LoggingEvent event) {
-		// prevent re-entry.
-		if (guard) {
-			return;
-		}
-
-		try {
-			guard = true;
-			LoggingEventProcessor.process(new Log4jLoggingEvent(event));
-		} finally {
-			guard = false;
-		}
-
+		logLineAppender.doAppend(new Log4jLoggingEvent(event));
 	}
 
 }
