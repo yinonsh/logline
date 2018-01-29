@@ -1,5 +1,6 @@
 package org.logline;
 
+import org.apache.logging.log4j.core.appender.AppenderLoggingException;
 import org.junit.Assert;
 import org.logline.logger.ILogger;
 
@@ -8,6 +9,9 @@ public class TestUtils {
 			Class<? extends RuntimeException> exceptionClass) {
 		try {
 			logger.info(line);
+		} catch (AppenderLoggingException ex) {
+			Assert.assertEquals(ex.getCause().getClass(), exceptionClass);
+			return (Exception) ex.getCause();
 		} catch (Exception e) {
 			Assert.assertEquals(e.getClass(), exceptionClass);
 			return e;

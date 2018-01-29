@@ -5,6 +5,7 @@ import static org.logline.TestUtils.assertThrownException;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +31,7 @@ public class ConfigurationTests {
 	@Parameters
 	public static Collection<Object[]> data() {
 		final Logger logback = (Logger) LoggerFactory.getLogger(ActionTests.class);
-		final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ActionTests.class);
+		final org.apache.logging.log4j.Logger log4j = LogManager.getLogger(ActionTests.class);
 
 		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) }, { new Log4jLogger(log4j) } });
 	}

@@ -1,5 +1,6 @@
 package org.logline.log4j;
 
+import org.apache.logging.log4j.core.LogEvent;
 import org.logline.ILoggingEvent;
 
 /**
@@ -8,16 +9,16 @@ import org.logline.ILoggingEvent;
 
 public class Log4jLoggingEvent implements ILoggingEvent {
 
-	org.apache.log4j.spi.LoggingEvent log4jLoggingEvent;
+	LogEvent logEvent;
 
-	public Log4jLoggingEvent(org.apache.log4j.spi.LoggingEvent log4jLoggingEvent) {
+	public Log4jLoggingEvent(LogEvent logEvent) {
 		super();
-		this.log4jLoggingEvent = log4jLoggingEvent;
+		this.logEvent = logEvent;
 	}
 
 	@Override
 	public String getFormattedMessage() {
-		return log4jLoggingEvent.getRenderedMessage();
+		return logEvent.getMessage().getFormattedMessage();
 	}
 
 }

@@ -1,6 +1,6 @@
 package org.logline.logger;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 /**
  * @author Yinon Sharifi

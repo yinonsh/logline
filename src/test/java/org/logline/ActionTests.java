@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.CountDownLatch;
 
+import org.apache.logging.log4j.LogManager;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class ActionTests {
 	@Parameters
 	public static Collection<Object[]> data() {
 		final Logger logback = (Logger) LoggerFactory.getLogger(ActionTests.class);
-		final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ActionTests.class);
+		final org.apache.logging.log4j.Logger log4j = LogManager.getLogger(ActionTests.class);
 
 		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) }, { new Log4jLogger(log4j) } });
 		// return Arrays.asList(new Object[][] { { new Log4jLogger(log4j) } });
@@ -77,6 +78,29 @@ public class ActionTests {
 		Assert.assertTrue("Expected no delay", duration >= 0 && duration < 10);
 	}
 
+	@Test(timeout = 5000)
+	public void testWaitAndNotifyActions() throws InterruptedException {
+		if (logger instanceof Log4jLogger) {
+			return;
+		}
+
+		Object event = new Object();
+		onLogLine("foo").waitFor(event);
+		onLogLine("bar").notifyOf(event);
+
+		Runnable runnable = () -> {
+			logger.info("foo"); // will wait for event
+			logger.info("aaaaaa"); // will wait for event
+		};
+
+		Thread t = new Thread(runnable);
+		t.start();
+		Thread.sleep(1000);
+
+		logger.info("bar");
+		t.join();
+	}
+
 	@Test
 	public void testAsyncDelayAction() throws InterruptedException {
 		long delayMs = 350;
@@ -86,12 +110,9 @@ public class ActionTests {
 
 		long start = System.currentTimeMillis();
 
-		Runnable runnable = new Runnable() {
-			@Override
-			public void run() {
-				logger.info("foo");
-				latch.countDown();
-			}
+		Runnable runnable = () -> {
+			logger.info("foo");
+			latch.countDown();
 		};
 
 		new Thread(runnable).start();
@@ -99,8 +120,8 @@ public class ActionTests {
 		latch.await();
 
 		long duration = System.currentTimeMillis() - start;
-		Assert.assertTrue("Expected at least a delay of " + delayMs + " ms",
-				duration >= delayMs && duration < delayMs + 20);
+		Assert.assertTrue("Expected a delay of " + delayMs + " ms but was " + duration,
+				duration >= delayMs && duration < delayMs + 50);
 	}
 
 	@Test
@@ -134,7 +155,7 @@ public class ActionTests {
 	}
 
 	@Test
-	public void testNoInfiniteLogging() {
+	public void testNoInfiniteActionsLoop() {
 		onLogLine("foo").run(new ILoggingEventAction() {
 			private static final long serialVersionUID = 1L;
 

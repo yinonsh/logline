@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="XMLConfigTest"
+	packages="org.logline.log4j">
+	<Appenders>
+		<Appender type="Console" name="STDOUT">
+			<Layout type="PatternLayout" pattern="%m %n" />
+		</Appender>
+		<Appender type="Log4jLogLineAppender" name="logline" />
+	</Appenders>
+
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="logline" />
+		</Root>
+	</Loggers>
+
+</Configuration>

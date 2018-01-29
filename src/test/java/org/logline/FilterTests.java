@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +37,7 @@ public class FilterTests {
 	@Parameters
 	public static Collection<Object[]> data() {
 		final Logger logback = (Logger) LoggerFactory.getLogger(ActionTests.class);
-		final org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(ActionTests.class);
+		final org.apache.logging.log4j.Logger log4j = LogManager.getLogger(ActionTests.class);
 
 		return Arrays.asList(new Object[][] { { new LogbackLogger(logback) }, { new Log4jLogger(log4j) } });
 	}
@@ -53,8 +54,8 @@ public class FilterTests {
 
 	@Test
 	public void testPatternBasedFilter() {
-		Map<String, List<String>> patternToMatchedMessages = new HashMap<String, List<String>>();
-		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<String, List<String>>();
+		Map<String, List<String>> patternToMatchedMessages = new HashMap<>();
+		Map<String, List<String>> patternToUnmatchedMessages = new HashMap<>();
 
 		// Examples taken from : http://www.vogella.com/tutorials/JavaRegularExpressions/article.html
 
