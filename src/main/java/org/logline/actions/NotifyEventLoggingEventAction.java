@@ -17,7 +17,9 @@ public class NotifyEventLoggingEventAction implements ILoggingEventAction {
 
 	@Override
 	public void act(ILoggingEvent loggingEvent) {
-		event.notifyAll();
+		synchronized (event) {
+			event.notifyAll();
+		}
 	}
 
 }

@@ -17,10 +17,12 @@ public class WaitForEventLoggingEventAction implements ILoggingEventAction {
 
 	@Override
 	public void act(ILoggingEvent loggingEvent) {
-		try {
-			event.wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		synchronized (event) {
+			try {
+				event.wait();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
