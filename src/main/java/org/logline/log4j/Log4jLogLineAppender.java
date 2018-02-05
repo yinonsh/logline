@@ -34,30 +34,3 @@ public class Log4jLogLineAppender extends AbstractAppender {
 		logLineAppender.doAppend(new Log4jLoggingEvent(event));
 	}
 }
-
-/*
- *
- * @Plugin(name = "Log4jLogLineAppender",
- * category = Core.CATEGORY_NAME,
- * elementType = Appender.ELEMENT_TYPE,
- * printObject = true)
- * public class Log4jLogLineAppender extends AbstractAppender {
- * private LogLineAppender logLineAppender = new LogLineAppender();
- *
- * @PluginFactory
- * public static Log4jLogLineAppender createAppender(@PluginAttribute("name") final String name) {
- * return new Log4jLogLineAppender(name);
- * }
- *
- * protected Log4jLogLineAppender(String name) {
- * super(name, null, null);
- * }
- *
- * @Override
- * public void append(LogEvent event) {
- * logLineAppender.doAppend(new Log4jLoggingEvent(event));
- * }
- *
- * }
- *
- */
