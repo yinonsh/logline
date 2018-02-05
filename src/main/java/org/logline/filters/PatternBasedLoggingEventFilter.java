@@ -17,6 +17,10 @@ public class PatternBasedLoggingEventFilter implements ILoggingEventFilter {
 		this.pattern = pattern;
 	}
 
+	public PatternBasedLoggingEventFilter(String patternString) {
+		pattern = Pattern.compile(patternString);
+	}
+
 	@Override
 	public boolean accept(ILoggingEvent event) {
 		return pattern.matcher(event.getFormattedMessage()).matches();
