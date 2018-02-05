@@ -66,7 +66,7 @@ public class LogLineConfigurationRegistry implements Serializable {
 		return getDefault().on(new StartsWithMessageLoggingEventFilter(text));
 	}
 
-	public static ILoggingEventFilterWrapper onPattern(String text) {
+	public static ILoggingEventFilterWrapper onMatch(String text) {
 		return getDefault().on(new PatternBasedLoggingEventFilter(text));
 	}
 
