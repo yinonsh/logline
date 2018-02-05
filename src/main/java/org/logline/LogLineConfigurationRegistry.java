@@ -7,6 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
+import org.logline.filters.ExactMessageLoggingEventFilter;
+import org.logline.filters.PatternBasedLoggingEventFilter;
+import org.logline.filters.StartsWithMessageLoggingEventFilter;
 
 /**
  * @author Yinon Sharifi
@@ -17,7 +20,7 @@ public class LogLineConfigurationRegistry implements Serializable {
 
 	public static final String DEFAULT_CONF = "_DEFAULT_CONFIGURATION_";
 
-	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<String, LogLineConfiguration>();
+	private static Map<String, LogLineConfiguration> configurations = new ConcurrentHashMap<>();
 
 	static {
 		register(new LogLineConfiguration(DEFAULT_CONF));
@@ -50,10 +53,23 @@ public class LogLineConfigurationRegistry implements Serializable {
 	}
 
 	public static Collection<LogLineConfiguration> getAllConfigurations() {
-		return new ArrayList<LogLineConfiguration>(configurations.values());
+		return new ArrayList<>(configurations.values());
 	}
 
 	// syntactic sugar
+
+	public static ILoggingEventFilterWrapper on(String text) {
+		return getDefault().on(new ExactMessageLoggingEventFilter(text));
+	}
+
+	public static ILoggingEventFilterWrapper onStartWith(String text) {
+		return getDefault().on(new StartsWithMessageLoggingEventFilter(text));
+	}
+
+	public static ILoggingEventFilterWrapper onPattern(String text) {
+		return getDefault().on(new PatternBasedLoggingEventFilter(text));
+	}
+
 	public static ILoggingEventFilterWrapper on(ILoggingEventFilter filter) {
 		return getDefault().on(filter);
 	}
