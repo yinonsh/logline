@@ -173,6 +173,15 @@ public class ActionTests {
 		logger.info("bar");
 	}
 
+	@Test
+	public void testRunnableAction() {
+		onLogLine("foo").run(() -> {
+			throw new IllegalStateException();
+		});
+
+		assertThrownException(logger, "foo", IllegalStateException.class);
+	}
+
 	private ILoggingEventFilterWrapper onLogLine(final String line) {
 		return on(new ILoggingEventFilter() {
 			private static final long serialVersionUID = 1L;

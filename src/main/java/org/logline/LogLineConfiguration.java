@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.logline.actions.DelayLoggingEventAction;
 import org.logline.actions.DumpStackTraceLoggingEventAction;
 import org.logline.actions.NotifyEventLoggingEventAction;
+import org.logline.actions.RunnerWrapperLoggingEventAction;
 import org.logline.actions.SystemExitLoggingEventAction;
 import org.logline.actions.ThrowExceptionLoggingEventAction;
 import org.logline.actions.WaitForEventLoggingEventAction;
@@ -51,7 +52,7 @@ public class LogLineConfiguration implements Serializable {
 	public void put(ILoggingEventFilter filter, List<ILoggingEventAction> actions) {
 		List<ILoggingEventAction> existingActions = filtersToActions.get(filter);
 		if (existingActions == null) {
-			existingActions = new ArrayList<ILoggingEventAction>();
+			existingActions = new ArrayList<>();
 			filtersToActions.put(filter, existingActions);
 		}
 		existingActions.addAll(actions);
@@ -62,7 +63,7 @@ public class LogLineConfiguration implements Serializable {
 	}
 
 	public List<ILoggingEventAction> getActions(ILoggingEventFilter filter) {
-		return new ArrayList<ILoggingEventAction>(filtersToActions.get(filter));
+		return new ArrayList<>(filtersToActions.get(filter));
 	}
 
 	public void clear() {
@@ -93,6 +94,11 @@ public class LogLineConfiguration implements Serializable {
 		public ILoggingEventFilterWrapper(LogLineConfiguration configuration, ILoggingEventFilter filter) {
 			this.filter = filter;
 			this.configuration = configuration;
+		}
+
+		public ILoggingEventFilterWrapper run(Runnable runnable) {
+			configuration.put(filter, new RunnerWrapperLoggingEventAction(runnable));
+			return this;
 		}
 
 		public ILoggingEventFilterWrapper run(ILoggingEventAction... actions) {
