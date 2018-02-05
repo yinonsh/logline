@@ -8,8 +8,7 @@
         </encoder>
     </appender>
 
-	<appender name="Logline" class="org.logline.logback.LogbackLogLineAppender">
-	</appender>
+	<appender name="Logline" class="org.logline.logback.LogbackLogLineAppender"/>
 	
      <root level="info">
         <appender-ref ref="Console" />
