@@ -148,7 +148,7 @@ public class ActionTests {
 	}
 
 	@Test
-	public void tesActionsOnDifferentMessageLevels() {
+	public void testActionsOnDifferentMessageLevels() {
 		onLogLine("foo").throwException(new IllegalStateException());
 		logger.debug("foo");
 		assertThrownException(logger, "foo", IllegalStateException.class);
