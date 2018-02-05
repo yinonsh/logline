@@ -10,19 +10,95 @@ Logline is a simple yet powerful framework that solves a very common problem - r
 
 In the general form, Logline enables the running of any piece of code (action), at a specific point in the flow (filter), without modifying the actual execution flow. The concept is somewhat similar to AOP, except that actual log lines represents these points in the execution flow, which makes it simpler to use and to configure.
 
-For example, to simulate a latency when the program fetches contacts from facebook i.e. when logging logging "Fetching FB contacts":
+For example, to simulate a latency when fetching contacts from facebook:
 
 ```java
 on("Fetching FB contacts").delayMillis(5000);
 ```
-	
+
 You can also concatenate actions which is pretty cool, and lets you simulate even more interesting use cases:
 
 ```java
-on("Fetching FB contacts").delayMillis(60000).throw(new ConnectionTimeoutException());
+on("Fetching FB contacts").delayMillis(60000).throwException(new ConnectionTimeoutException());
 ```
-For more information, please visit:
-* Why should you use logline 
-* Getting started
-* Limitations 
-* Backlog
+
+## Getting Started
+
+Only 2 steps and you're ready to go !
+1. Get the Code
+2. Configure your logging framework
+
+See [Getting Started](https://github.com/yinonsh/logline/wiki/Getting-Started)
+
+## Usage
+
+For readability assume 
+```java
+import static org.logline.LogLineConfigurationRegistry.*;
+```
+
+* Crashing the process
+
+```java
+on("Done phase A processing of trade data").exit(0);
+```
+
+* Taking thread dump when failed to take a connection from pool 
+
+```java
+on("Failed to acquire DB connection").threadDump(logger) 
+```
+The stack trace is logged using the provided logger
+
+* Syncing between running threads, and have thread A wait for thread B to reach a point:
+
+```java
+Object event = new Object()
+on("foo").waitFor(event); // "foo" is logged on thread A flow
+on("bar").notifyOf(event); // "bar" is logged on thread B flow
+```
+
+* Running a given runnable when logging message matches a given pattern:
+
+```java
+onMatch(pattern).run(runnable);
+```
+
+* To take snapshot and email QA/Support whenever a log starts with "Unexpected":
+
+```java
+onStartWith("Unexpected").run(() -> {
+	takeSnapshot();
+        notifySupportOrQa();
+});
+```
+
+## Configuration
+
+Logline supports different configuration of filters and actions. 
+
+A configuration is enabled and "registered" for use on creation, but can be managed separately from other configurations.
+
+```java
+LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
+conf1.on("foo").throwException(new IllegalStateException());
+
+LogLineConfiguration conf2 = new LogLineConfiguration("conf2");
+conf2.onStartWith("bar").delayMillis(1000);
+conf2.disable(); // The configuration was enabled by default
+```
+
+A default configuration exist and can be managed similarly. To get it explicitly one can use
+
+```java
+LogLineConfigurationRegistry.getDefault()
+```
+
+## Notes
+
+* Messages can be logged inside actions, but the filters will not be applied recursively
+* Actions are called only for messages with level higher than threshold
+* The order of actions is important - an action that throws an exception will lead to skipping further actions.
+* Log4j2 doesnt support the throw-exception action correctly. The thrown exception is wrapped with AppenderLoggingException
+* Time penalty - highly depends on the configured filters and actions.
+* Support Java 6 and up
