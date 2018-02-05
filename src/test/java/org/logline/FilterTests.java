@@ -69,9 +69,7 @@ public class FilterTests {
 		patternToUnmatchedMessages.put(".*(jim|joe).*", Arrays.asList("humbapumpa ji", "humbapumpa jom", "aaaaaaaaa"));
 		patternToUnmatchedMessages.put("\\d\\d\\d([,\\s])?\\d\\d\\d\\d", Arrays.asList("1233323322"));
 		for (String pattern : patternToUnmatchedMessages.keySet()) {
-			Pattern p = Pattern.compile(pattern);
-			LogLineConfigurationRegistry.on(new PatternBasedLoggingEventFilter(p))
-					.throwException(new IllegalStateException());
+			LogLineConfigurationRegistry.onMatch(pattern).throwException(new IllegalStateException());
 
 			for (String match : patternToUnmatchedMessages.get(pattern)) {
 				logger.info(match);
