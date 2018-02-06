@@ -78,7 +78,7 @@ onStartWith("Unexpected").run(() -> {
 
 ## Configuration
 
-Logline supports different configuration of filters and actions. A configuration is enabled and "registered" for use on creation, but can be managed separately from other configurations.
+Logline supports multiple sets of configuration of filters and actions. A configuration is enabled and "registered" for use on creation, but can be managed separately from other configurations.
 
 ```java
 LogLineConfiguration conf1 = new LogLineConfiguration("conf1");
