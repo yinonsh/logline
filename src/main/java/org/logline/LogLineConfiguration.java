@@ -15,6 +15,9 @@ import org.logline.actions.RunnerWrapperLoggingEventAction;
 import org.logline.actions.SystemExitLoggingEventAction;
 import org.logline.actions.ThrowExceptionLoggingEventAction;
 import org.logline.actions.WaitForEventLoggingEventAction;
+import org.logline.filters.ExactMessageLoggingEventFilter;
+import org.logline.filters.PatternBasedLoggingEventFilter;
+import org.logline.filters.StartsWithMessageLoggingEventFilter;
 import org.logline.logger.ILogger;
 
 /**
@@ -83,8 +86,21 @@ public class LogLineConfiguration implements Serializable {
 	}
 
 	// syntactic sugar
+
 	public ILoggingEventFilterWrapper on(ILoggingEventFilter filter) {
 		return new ILoggingEventFilterWrapper(this, filter);
+	}
+
+	public ILoggingEventFilterWrapper on(String text) {
+		return on(new ExactMessageLoggingEventFilter(text));
+	}
+
+	public ILoggingEventFilterWrapper onStartWith(String text) {
+		return on(new StartsWithMessageLoggingEventFilter(text));
+	}
+
+	public ILoggingEventFilterWrapper onMatch(String text) {
+		return on(new PatternBasedLoggingEventFilter(text));
 	}
 
 	public static class ILoggingEventFilterWrapper {

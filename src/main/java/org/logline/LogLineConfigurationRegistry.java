@@ -7,9 +7,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.logline.LogLineConfiguration.ILoggingEventFilterWrapper;
-import org.logline.filters.ExactMessageLoggingEventFilter;
-import org.logline.filters.PatternBasedLoggingEventFilter;
-import org.logline.filters.StartsWithMessageLoggingEventFilter;
 
 /**
  * @author Yinon Sharifi
@@ -59,15 +56,15 @@ public class LogLineConfigurationRegistry implements Serializable {
 	// syntactic sugar
 
 	public static ILoggingEventFilterWrapper on(String text) {
-		return getDefault().on(new ExactMessageLoggingEventFilter(text));
+		return getDefault().on(text);
 	}
 
 	public static ILoggingEventFilterWrapper onStartWith(String text) {
-		return getDefault().on(new StartsWithMessageLoggingEventFilter(text));
+		return getDefault().onStartWith(text);
 	}
 
 	public static ILoggingEventFilterWrapper onMatch(String text) {
-		return getDefault().on(new PatternBasedLoggingEventFilter(text));
+		return getDefault().onMatch(text);
 	}
 
 	public static ILoggingEventFilterWrapper on(ILoggingEventFilter filter) {
