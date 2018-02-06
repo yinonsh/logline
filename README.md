@@ -26,7 +26,7 @@ on("Fetching FB contacts").delayMillis(60000).throwException(new ConnectionTimeo
 
 Only 2 steps and you're ready to go !
 1. Get the Code
-2. Configure your logging framework
+2. Configure your existing logging framework
 
 See [Getting Started](https://github.com/yinonsh/logline/wiki/Getting-Started)
 
