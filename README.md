@@ -40,15 +40,16 @@ import static org.logline.LogLineConfigurationRegistry.*;
 * Crashing the process
 
 ```java
-on("Done phase A processing of trade data").exit(0);
+on("Done phase A of processing the trade data").exit(0);
 ```
+or even crash it in the middle of the process, to check the recovery.
 
 * Taking thread dump when failed to take a connection from pool 
 
 ```java
 on("Failed to acquire DB connection").threadDump(logger) 
 ```
-The stack trace is logged using the provided logger
+The stack trace is logged using the provided logger.
 
 * Syncing between running threads, and have thread A wait for thread B:
 
@@ -57,6 +58,8 @@ Object event = new Object()
 on("foo").waitFor(event); // "foo" is logged on thread A flow
 on("bar").notifyOf(event); // "bar" is logged on thread B flow
 ```
+
+Thread A will wait when logging "foo", until thread B will log "bar".
 
 * Running a given runnable when logging a message that matches a given pattern:
 
