@@ -1,12 +1,14 @@
 # Logline
 
-Logline is a simple yet powerful framework that solves a very common problem - reproducing use cases that require fine control of an application execution flow. Such use cases include:
+Logline is a simple yet powerful framework that solves a very common problem - reproduction of use cases that require fine control of an application execution flow, for example:
 
-* A hanging thread that should be identified by a watchdog
-* Sync between multiple threads to simulate a deadlock or count-down latches
-* A high latency when accessing DB or other remote service 
-* A crash in a specific point of the execution flow, to test a recovery or an upgrade from that specific point
+* A deadlock between multiple threads
+* A hanging thread
+* Increased latency when accessing DB or other remote service 
+* A crash in a specific point of the execution flow
 * Throwing of a rare exception
+
+Logline is mostly used to develop automation tests, or as a tool for operations to analyze or reproduce incidents.
 
 In the general form, Logline enables the running of any piece of code (action), at a specific point in the flow (filter), without modifying the actual execution flow.
 
@@ -32,7 +34,7 @@ See [Getting Started](https://github.com/yinonsh/logline/wiki/Getting-Started)
 
 ## Usage
 
-For readability assume 
+For readability assume the following import
 ```java
 import static org.logline.LogLineConfigurationRegistry.*;
 ```
