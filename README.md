@@ -1,6 +1,6 @@
 # Logline
 
-Logline is a simple yet powerful framework that solves a very common problem - reproduction of use cases that require fine control of an application execution flow, for example:
+Logline is a simple yet powerful framework that integrates with existing logging framework (logback or log4j), to solves a very common problem - reproduction of use cases that require fine control of an application execution flow, for example:
 
 * A deadlock between multiple threads
 * A hanging thread
@@ -10,7 +10,7 @@ Logline is a simple yet powerful framework that solves a very common problem - r
 
 Logline is mostly used to develop automation tests, or as a tool for operations to analyze or reproduce incidents.
 
-In the general form, Logline enables the running of any piece of code (action), at a specific point in the flow (filter), without modifying the actual execution flow.
+In the general form, Logline enables the running of any piece of code (action), at a specific point in the flow (filter), by leveraging existing log messages, without modifying the actual execution flow
 
 For example, to simulate a latency when fetching contacts from facebook:
 
