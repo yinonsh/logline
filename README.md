@@ -104,4 +104,4 @@ LogLineConfigurationRegistry.getDefault();
 * Messages can be logged inside actions, but the filters will not be applied recursively
 * Log4j2 doesnt support the throw-exception action correctly. The thrown exception is wrapped with AppenderLoggingException
 * Time penalty - highly depends on the configured filters and actions.
-* Support Java 6 and up
+* Java 6 and up is supported
