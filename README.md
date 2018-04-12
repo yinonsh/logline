@@ -1,6 +1,6 @@
 # Logline
 
-Logline is a simple yet powerful framework that integrates with existing logging framework (logback or log4j), to solves a very common problem - reproduction of use cases that require fine control of an application execution flow, for example:
+Logline is a simple yet powerful framework that integrates with existing logging framework (logback or log4j), to solves a very common problem - reproduction of use cases that require fine control of an application execution flow. For example:
 
 * A deadlock between multiple threads
 * A hanging thread
