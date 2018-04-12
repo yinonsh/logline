@@ -39,14 +39,14 @@ For readability assume the following import
 import static org.logline.LogLineConfigurationRegistry.*;
 ```
 
-* Crashing the process
+* Crashing the entire Java process
 
 ```java
 on("Done phase A of processing the trade data").exit(0);
 ```
-or even crash it in the middle of the process, to check the recovery.
+It's useful for example to check for proper recovery.
 
-* Taking thread dump when failed to take a connection from pool 
+* Taking a thread dump when failed to take a connection from pool 
 
 ```java
 on("Failed to acquire DB connection").threadDump(logger) 
