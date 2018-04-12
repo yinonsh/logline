@@ -101,7 +101,7 @@ LogLineConfigurationRegistry.getDefault();
 
 * The order of actions is important - an action that throws an exception will lead to skipping further actions.
 * Actions are called only for messages with level higher than threshold
-* Messages can be logged inside actions, but the filters will not be applied recursively
+* Messages can be logged inside actions, but the filters will not be applied recursively (which is often the intuitive behavior)
 * Log4j2 doesnt support the throw-exception action correctly. The thrown exception is wrapped with AppenderLoggingException
 * Time penalty - highly depends on the configured filters and actions.
 * Java 6 and up is supported
